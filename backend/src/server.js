@@ -6,7 +6,9 @@ const connectDB=require('../src/config/db')
 const noteRouter = require('./routers/noteRoutes');
 const rateLimiter=require('../src/middleware/rateLimiter')
 app.use(express.json());
-app.use(cors());
+app.use(cors({
+    origin:"http://localhost:5173"
+}));
 app.use(rateLimiter);
 
 
