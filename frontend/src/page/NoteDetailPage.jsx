@@ -13,9 +13,14 @@ const NoteDetailPage = () => {
 
   const {id}=useParams();//Destructure the id or any params from the Url
   useEffect(()=>{
+    const token=localStorage.getItem('Token');
     const fetchNote=async()=>{
       try{
-        const Notes=await api.get(`/notes/${id}`);
+        const Notes=await api.get(`/notes/${id}`,{
+          headers:{
+            token:token
+          }
+        });
         setNote(Notes.data);
       }catch(err){
         console.log("Error fetching notes");
@@ -34,9 +39,14 @@ const NoteDetailPage = () => {
   },[id])
 
   const handleDelete=async()=>{
+    const token=localStorage.getItem('Token');
     if(!window.confirm("Are you sure you want to delete this?"))return;
     try{
-      await api.delete(`/notes/${id}`);
+      await api.delete(`/notes/${id}`,{
+        headers:{
+          token:token
+        }      
+      });
       console.log("deleted");
       toast.success("Successfully deleted");
       navigate('/');
@@ -47,14 +57,21 @@ const NoteDetailPage = () => {
   };
   
   const handleSave=async()=>{
+    
     if(!note.title.trim()||!note.content.trim()){
       toast.error("Please add the title or content");
       return;
     }
+    const token=localStorage.getItem('Token');
+
     try{
       await api.put(`/notes/${id}`,{
         title:note.title,
         content:note.content
+      },{
+        headers:{
+          token:token
+        }
       });
       toast.success("Updated the note successfully");
       navigate('/');

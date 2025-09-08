@@ -6,7 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 function checkSignupip(req, res, next) {
     const requiredbody = z.object({
         email: z.string().email("Check the email"),
-        password: z.string().min(7).max(30),
+        password: z.string().min(2).max(30),
         firstName: z.string().min(3),
         lastName: z.string(1)
     })
@@ -20,14 +20,14 @@ function checkSignupip(req, res, next) {
 }
 
 async function decodeToken(req, res, next) {
-    const token = req.body.token;
+    const token = req.headers.token;
     if (!token) {
         return res.status(400).json({
             message: "No token"
         })
     }
     const user = jwt.verify(token, JWT_SECRET);
-    console.log(user);
+    req.userId=user.id;
     next();
 }
 

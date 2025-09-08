@@ -3,10 +3,12 @@ const {NoteModel}=require('../models/Note')
 
 async function createNotes(req,res){
     const {title,content}=req.body;
+    const userId=req.userId;
     try{
         const Notes=await NoteModel.create({
             title:title,
-            content:content
+            content:content,
+            userId:userId
         })
         if(!Notes){
             res.status(500).json({message:"Couldnot create"});
@@ -19,8 +21,11 @@ async function createNotes(req,res){
 }
 
 async function getAllNotes(req,res){
+    const userId=req.userId;
     try{
-        const Notes=await NoteModel.find()
+        const Notes=await NoteModel.find({
+            userId:userId
+        })
         if(!Notes){
             res.status(400).json({message:"No notes"});
         }
@@ -32,17 +37,19 @@ async function getAllNotes(req,res){
 }
 
 async function updateNotes(req,res){
+    const userId=req.userId;
     const id=req.params.id;
     const {title,content}=req.body;
     try{
         const updated=await NoteModel.updateOne({
-            _id:id
+            _id:id,
+            userId:userId
         },{
             title:title,
             content:content
         })
         if(!updated){
-            res.status(400).json({message:"Requested note doesn't exist."});
+            res.status(400).json({message:"You dont have access to the note."});
         }
         res.status(200).json(updated);
     }catch(err){
@@ -53,9 +60,11 @@ async function updateNotes(req,res){
 
 async function deleteNotes(req,res){
     const id=req.params.id;
+    const userId=req.userId;
     try{
         const deletedNote=await NoteModel.deleteOne({
-            _id:id
+            _id:id,
+            userId:userId
         })
         if(!deletedNote.deletedCount>0){
             res.status(400).json({message:"Failed to delete"});
@@ -72,8 +81,10 @@ async function deleteNotes(req,res){
 
 async function getNote(req,res){
     const id=req.params.id;
+    const userId=req.userId; 
     try{
         const Note=await NoteModel.findOne({
+             userId:userId,
             _id:id
         })
         if(!Note){

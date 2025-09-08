@@ -9,10 +9,14 @@ const NoteCard = ({ note,setNotes }) => {
 
     const handleDelete=async(e,id)=>{
         e.preventDefault();
+        const token=localStorage.getItem('Token');
         if(!window.confirm("You want to delete this note?")) return ;
-
         try{
-            await api.delete(`notes/${id}`);
+            await api.delete(`notes/${id}`,{
+                headers:{
+                    token:token
+                }
+            });
             setNotes((prev)=>prev.filter(note=>note._id!==id));
             toast.success("Deleted successfully");
         }catch(err){

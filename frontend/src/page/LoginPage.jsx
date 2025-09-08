@@ -26,6 +26,7 @@ const LoginPage = ({ setisAllowed }) => {
           toast.error(response.data.message);
         }
         setisAllowed(true);
+        localStorage.setItem('Token',response.data.Token);
         navigate('/home');
         toast.success(`${para} successful`);
       } catch (err) {
@@ -42,9 +43,11 @@ const LoginPage = ({ setisAllowed }) => {
           toast.error(response.data.message);
         }
         setisAllowed(true);
+        localStorage.setItem('Token',response.data.Token);
         navigate('/home');
         toast.success(`${para} successful`);
       } catch (err) {
+        console.log(err.message);
         toast.error(`Try Again`);
       }
     }

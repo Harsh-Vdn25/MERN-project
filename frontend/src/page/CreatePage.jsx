@@ -16,12 +16,18 @@ const CreatePage = () => {
       toast.error("All fields are required")
       return;
     }
+    const token=localStorage.getItem('Token');
     setLoading(true);
     try{
       await api.post("/notes",{
         title:title,
         content:content
-      })
+      },
+    {
+      headers:{
+        token:token
+      }
+    })
       toast.success("Note created successfully!");
       navigate("/");
     }catch(err){

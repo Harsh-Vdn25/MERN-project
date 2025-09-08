@@ -14,8 +14,13 @@ async function SignUp(req,res){
             firstName:firstName,
             lastName:lastName
         })
+        const token=jwt.sign({
+            id:response._id.toString()
+        },JWT_SECRET);
+        
         res.status(200).json({
-            message:"Signed up successfully"
+            message:"Signed up successfully",
+            Token:token
         })
     }catch(err){
         console.log(err);

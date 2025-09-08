@@ -9,15 +9,21 @@ const {
     getNote
 }=require('../controllers/notesController')
 
+const {
+    decodeToken
+}=require('../middleware/usermidware');
 
-noteRouter.post('/',createNotes);
+const CheckNote=require('../middleware/notemiddleware');
 
-noteRouter.get('/',getAllNotes);
 
-noteRouter.put('/:id',updateNotes);
+noteRouter.post('/',decodeToken,createNotes);
 
-noteRouter.delete('/:id',deleteNotes);
+noteRouter.get('/',decodeToken,getAllNotes);
 
-noteRouter.get('/:id',getNote);
+noteRouter.put('/:id',decodeToken,CheckNote,updateNotes);
+
+noteRouter.delete('/:id',decodeToken,CheckNote,deleteNotes);
+
+noteRouter.get('/:id',decodeToken,CheckNote,getNote);
 
 module.exports=noteRouter;
