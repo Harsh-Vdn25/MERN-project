@@ -3,7 +3,7 @@ import api from '../lib/axios';
 import toast from 'react-hot-toast';
 import { Navigate,useNavigate } from 'react-router-dom';
 
-const LoginPage = ({ setisAllowed }) => {
+const LoginPage = () => {
   const [isSignup, setIsSignup] = useState(true);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -25,7 +25,6 @@ const LoginPage = ({ setisAllowed }) => {
         if(response.status!==200){
           toast.error(response.data.message);
         }
-        setisAllowed(true);
         localStorage.setItem('Token',response.data.Token);
         navigate('/home');
         toast.success(`${para} successful`);
@@ -42,7 +41,6 @@ const LoginPage = ({ setisAllowed }) => {
         if(response.status!==200){
           toast.error(response.data.message);
         }
-        setisAllowed(true);
         localStorage.setItem('Token',response.data.Token);
         navigate('/home');
         toast.success(`${para} successful`);
