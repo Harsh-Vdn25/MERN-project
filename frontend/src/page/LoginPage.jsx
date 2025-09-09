@@ -27,6 +27,7 @@ const LoginPage = () => {
         }
         localStorage.setItem('Token',response.data.Token);
         navigate('/home');
+        window.location.reload(); 
         toast.success(`${para} successful`);
       } catch (err) {
         console.log(err);
@@ -43,6 +44,7 @@ const LoginPage = () => {
         }
         localStorage.setItem('Token',response.data.Token);
         navigate('/home');
+        window.location.reload(); 
         toast.success(`${para} successful`);
       } catch (err) {
         console.log(err.message);

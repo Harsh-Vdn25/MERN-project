@@ -6,7 +6,7 @@ const JWT_SECRET = process.env.JWT_SECRET;
 function checkSignupip(req, res, next) {
     const requiredbody = z.object({
         email: z.string().email("Check the email"),
-        password: z.string().min(2).max(30),
+        password: z.string().min(7).max(30),
         firstName: z.string().min(3),
         lastName: z.string(1)
     })

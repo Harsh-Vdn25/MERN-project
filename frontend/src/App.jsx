@@ -9,10 +9,9 @@ import toast from 'react-hot-toast';
 
 const App = () => {
   const token = localStorage.getItem("Token");
-
   return (
     <Routes>
-      <Route path='/' element={<LoginPage />} />
+      <Route path='/' element={token?<Navigate to='/home'/>:<LoginPage />} />
       <Route path='/home' element={token ? <Homepage /> : <Navigate to="/" />} />
       <Route path='/create' element={token ? <CreatePage /> : <Navigate to="/" />} />
       <Route path='/home/note/:id' element={token ? <NoteDetailPage /> : <Navigate to="/" />} />
